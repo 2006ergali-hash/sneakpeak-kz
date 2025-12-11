@@ -727,37 +727,92 @@ header {
     margin-top: 50px;
 }
 
-/* --- АДАПТАЦИЯ ДЛЯ РЕАЛЬНОГО ТЕЛЕФОНА --- */
-@media screen and (max-width: 480px) {
+/* ============================================================
+   АДАПТАЦИЯ ПОД РЕАЛЬНЫЙ ТЕЛЕФОН (Mobile Responsiveness)
+   ============================================================ */
+@media screen and (max-width: 500px) {
+
+    /* 1. Сбрасываем настройки "презентации" */
     body {
-        background: #fff;
-        /* Убираем темный фон */
-        align-items: flex-start;
+        background: #ffffff;
+        /* Белый фон вместо черного */
+        display: block;
         /* Убираем центрирование */
+        height: 100vh;
+        /* Высота экрана */
+        min-height: -webkit-fill-available;
+        /* Фикс для iPhone */
+        overflow: hidden;
     }
 
+    /* 2. Убираем рамку телефона */
     .phone-frame {
+        width: 100%;
+        height: 100%;
+        /* Занимаем всё доступное место */
         border: none;
-        /* Убираем рамку */
+        /* Убираем черную рамку */
+        border-radius: 0;
+        /* Убираем скругления углов корпуса */
         box-shadow: none;
         /* Убираем тень */
-        border-radius: 0;
-        /* Убираем скругления корпуса */
-        width: 100%;
-        height: 100vh;
-        /* На всю высоту экрана */
-        padding: 0;
+        margin: 0;
     }
 
+    /* 3. Прячем декоративные элементы (челку, кнопки громкости) */
     .phone-notch,
     .side-btn {
-        display: none;
-        /* Скрываем челку и кнопки */
+        display: none !important;
     }
 
+    /* 4. Настраиваем внутренний контейнер */
     .mobile-container {
-        padding-top: 20px;
-        /* Обычный отступ сверху */
-        padding-bottom: 80px;
+        height: 100%;
+        width: 100%;
+        padding-top: 15px;
+        /* Небольшой отступ сверху */
+        padding-bottom: 90px;
+        /* Важно! Отступ снизу, чтобы контент не перекрывался меню */
+        border-radius: 0;
+        /* Фикс для прокрутки на iOS */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 5. ФИКСИРУЕМ НИЖНЕЕ МЕНЮ */
+    .bottom-nav {
+        position: fixed;
+        /* Жестко крепим к экрану */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        /* На всю ширину */
+        transform: none;
+        /* Убираем центрирование через transform */
+        border-radius: 20px 20px 0 0;
+        /* Скругляем только верхние углы */
+        padding: 15px 0;
+        /* Отступы внутри меню */
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+        /* Учет полоски на iPhone X+ */
+        z-index: 9999;
+        /* Поверх всего */
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        /* Тень вверх */
+    }
+
+    /* 6. Адаптация сетки товаров под узкие экраны */
+    .product-grid {
+        gap: 10px;
+        /* Чуть меньше отступы между товарами */
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    /* 7. Адаптация верхней шапки */
+    header {
+        padding: 0 10px;
+        margin-bottom: 15px;
     }
 }
