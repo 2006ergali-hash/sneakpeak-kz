@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakPeak KZ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div class="phone-frame">
+
+        <div id="push-notification" class="push-notification">
+            <div class="push-icon"><i class='bx bxs-bell-ring'></i></div>
+            <div class="push-content">
+                <h4 id="push-title">Уведомление</h4>
+                <p id="push-text">Текст...</p>
+            </div>
+        </div>
+
+        <div class="phone-notch">
+            <div class="speaker"></div>
+            <div class="camera"></div>
+        </div>
+        <div class="side-btn volume-up"></div>
+        <div class="side-btn volume-down"></div>
+        <div class="side-btn power"></div>
+
+        <div class="mobile-container">
+
+            <header>
+                <div class="logo">
+                    <h2>Sneak<span class="highlight">Peak</span><span class="light">.KZ</span></h2>
+                </div>
+                <div class="cart-icon" onclick="showScreen('cart-screen')">
+                    <i class='bx bx-shopping-bag'></i>
+                    <span class="notification">0</span>
+                </div>
+            </header>
+
+            <div id="home-screen" class="screen active-screen">
+                <section class="welcome-section">
+                    <h1>Твой стиль <br> Твои правила</h1>
+                    <div class="search-box">
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Поиск (напр. Jordan)..." oninput="searchProducts(this.value)">
+                    </div>
+                </section>
+                <section class="category-wrapper">
+                    <button class="cat-arrow" onclick="rotateCategories('left')"><i
+                            class='bx bx-chevron-left'></i></button>
+                    <div class="categories" id="category-list"></div>
+                    <button class="cat-arrow" onclick="rotateCategories('right')"><i
+                            class='bx bx-chevron-right'></i></button>
+                </section>
+                <section class="product-grid" id="product-list"></section>
+                <div style="height: 80px;"></div>
+            </div>
+
+            <div id="details-screen" class="screen">
+                <div class="details-nav">
+                    <i class='bx bx-chevron-left back-btn' onclick="goBack()"></i>
+                    <i class='bx bx-heart favorite-btn-large' id="detail-fav-btn"></i>
+                </div>
+                <div class="detail-gallery-container">
+                    <button class="gallery-btn left" onclick="changeImage(-1)"><i
+                            class='bx bx-chevron-left'></i></button>
+                    <img id="detail-main-img" src="" alt="Sneaker">
+                    <button class="gallery-btn right" onclick="changeImage(1)"><i
+                            class='bx bx-chevron-right'></i></button>
+                    <div class="gallery-dots" id="gallery-dots"></div>
+                </div>
+                <div id="details-text-content"></div>
+                <div class="size-section">
+                    <h4>Размер (EU)</h4>
+                    <div class="sizes-grid" id="size-options"></div>
+                </div>
+                <div class="details-footer">
+                    <div class="total-price-block">
+                        <span>Цена:</span>
+                        <h3 id="detail-price">0 ₸</h3>
+                    </div>
+                    <button class="add-to-cart-large" onclick="addToCartFromDetails()">В корзину</button>
+                </div>
+            </div>
+
+            <div id="favorites-screen" class="screen">
+                <div class="page-header">
+                    <h2>Избранное ❤️</h2>
+                </div>
+                <div class="product-grid" id="favorites-list"></div>
+                <div style="height: 80px;"></div>
+            </div>
+
+            <div id="cart-screen" class="screen">
+                <div class="page-header">
+                    <i class='bx bx-chevron-left back-btn' onclick="goBack()"></i>
+                    <h2>Корзина</h2>
+                    <span class="clear-cart" onclick="clearCart()">Очистить</span>
+                </div>
+                <div class="cart-items-container" id="cart-items"></div>
+                <div class="cart-total-block">
+                    <div class="total-row"><span>Итого:</span><span id="total-price">0 ₸</span></div>
+                    <button class="checkout-btn" onclick="goToCheckout()">Оформить заказ</button>
+                </div>
+                <div style="height: 80px;"></div>
+            </div>
+
+            <div id="checkout-screen" class="screen">
+                <div class="page-header">
+                    <i class='bx bx-chevron-left back-btn' onclick="showScreen('cart-screen')"></i>
+                    <h2>Оформление</h2>
+                </div>
+
+                <div class="checkout-summary">
+                    <p>К оплате:</p>
+                    <h2 id="checkout-total-amount">0 ₸</h2>
+                </div>
+
+                <div class="form-container">
+                    <h4 class="form-title">Доставка (Казахстан) 🇰🇿</h4>
+                    <label>Имя Фамилия</label>
+                    <input type="text" id="order-name" placeholder="Айдар Алиев">
+
+                    <label>Город</label>
+                    <input type="text" id="order-city" placeholder="Алматы">
+
+                    <label>Адрес</label>
+                    <input type="text" id="order-street" placeholder="ул. Абая 10, кв 25">
+
+                    <h4 class="form-title">Оплата Kaspi / Карта 💳</h4>
+                    <div class="payment-input-box">
+                        <input type="text" id="payment-card-number" placeholder="4400 4300 0000 0000" maxlength="19">
+                        <div class="row-inputs">
+                            <input type="text" placeholder="MM/YY" maxlength="5">
+                            <input type="password" placeholder="CVV" maxlength="3">
+                        </div>
+                    </div>
+
+                    <button class="pay-btn" onclick="confirmOrder()">Оплатить заказ</button>
+                </div>
+                <div style="height: 50px;"></div>
+            </div>
+
+            <div id="profile-screen" class="screen">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User">
+                    </div>
+                    <h3 id="profile-name-display">Гость</h3>
+                    <p id="profile-email-display">guest@sneaker.kz</p>
+                </div>
+                <div class="profile-menu">
+                    <div class="menu-item" onclick="showScreen('edit-profile-screen')">
+                        <div class="menu-icon"><i class='bx bx-user'></i></div>
+                        <div class="menu-text">Мои данные</div>
+                        <i class='bx bx-chevron-right'></i>
+                    </div>
+                    <div class="menu-item" onclick="showScreen('history-screen'); renderHistory()">
+                        <div class="menu-icon"><i class='bx bx-history'></i></div>
+                        <div class="menu-text">История заказов</div>
+                        <i class='bx bx-chevron-right'></i>
+                    </div>
+                </div>
+                <div style="height: 80px;"></div>
+            </div>
+
+            <div id="history-screen" class="screen">
+                <div class="page-header">
+                    <i class='bx bx-chevron-left back-btn' onclick="showScreen('profile-screen')"></i>
+                    <h2>Мои заказы</h2>
+                </div>
+                <div class="history-list" id="history-list"></div>
+            </div>
+
+            <div id="edit-profile-screen" class="screen">
+                <div class="page-header">
+                    <i class='bx bx-chevron-left back-btn' onclick="showScreen('profile-screen')"></i>
+                    <h2>Мои данные</h2>
+                </div>
+                <div class="form-container">
+                    <label>Ваше Имя</label>
+                    <input type="text" id="input-name" placeholder="Введите имя">
+                    <label>Телефон / Email</label>
+                    <input type="text" id="input-email" placeholder="+7 (777) 000 00 00">
+                    <button class="save-btn" onclick="saveProfile()">Сохранить</button>
+                </div>
+            </div>
+
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="showScreen('home-screen'); setActiveNav(this)"><i
+                    class='bx bx-home-alt'></i></a>
+            <a href="#" class="nav-item"
+                onclick="showScreen('favorites-screen'); renderFavorites(); setActiveNav(this)"><i
+                    class='bx bx-heart'></i></a>
+            <a href="#" class="nav-item" onclick="showScreen('cart-screen'); setActiveNav(this)"><i
+                    class='bx bx-shopping-bag'></i></a>
+            <a href="#" class="nav-item" onclick="showScreen('profile-screen'); setActiveNav(this)"><i
+                    class='bx bx-user'></i></a>
+        </nav>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
